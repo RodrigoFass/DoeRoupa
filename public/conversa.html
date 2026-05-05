@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Conversa</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      background: #F0CDC3;
+      font-family: 'Poppins', Arial, sans-serif;
+      margin: 0;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .container { max-width: 500px; margin: 40px auto; background: #fff; border-radius: 18px; box-shadow: 0 4px 24px rgba(0,0,0,0.10); padding: 24px; display: flex; flex-direction: column; height: 80vh; }
+    .mensagens { flex: 1; overflow-y: auto; margin-bottom: 18px; }
+    .msg { margin: 8px 0; padding: 10px 16px; border-radius: 16px; max-width: 70%; word-break: break-word; }
+    .msg.eu { background: #f8b400; color: #fff; align-self: flex-end; }
+    .msg.eles { background: #f5eadf; color: #3b2e2a; align-self: flex-start; }
+    .msg-data { font-size: 0.8em; color: #b6a6a0; margin-top: 2px; text-align: right; }
+    .enviar-form {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 18px 18px 0 18px;
+      background: none;
+    }
+    .enviar-form input {
+      flex: 1;
+      border: none;
+      border-radius: 22px;
+      padding: 18px 22px;
+      font-size: 1.15em;
+      background: #f9f5e9;
+      color: #4a6fa5;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.07);
+      outline: none;
+      margin-right: 0;
+      transition: box-shadow 0.2s;
+    }
+    .enviar-form input::placeholder {
+      color: #8c7b75;
+      opacity: 1;
+      font-size: 1.08em;
+    }
+    .enviar-form button {
+      background: #2451a5;
+      color: #fff;
+      border: none;
+      border-radius: 50%;
+      width: 48px;
+      height: 48px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5em;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.10);
+      transition: background 0.2s, transform 0.2s;
+      margin-left: 0;
+      padding: 0;
+    }
+    .enviar-form button:hover {
+      background: #1a3570;
+      transform: scale(1.08);
+    }
+    .bottom-nav {
+      position: fixed;
+      left: 0;
+      bottom: 0;
+      width: 100vw;
+      background: #4a6fa5;
+      box-shadow: 0 -2px 8px rgba(0,0,0,0.08);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 80px;
+      z-index: 100;
+    }
+    .bottom-nav .nav-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      flex: 1 1 0;
+      height: 100%;
+      color: #fff;
+      font-size: 2em;
+      text-decoration: none;
+      font-family: 'Poppins', 'Segoe UI', Arial, sans-serif;
+      font-weight: 600;
+      transition: color 0.2s;
+      padding: 0;
+      margin: 0;
+    }
+    .bottom-nav .nav-item i {
+      font-size: 1.5em;
+      margin: 0 auto;
+      display: block;
+    }
+    .bottom-nav .nav-item.active,
+    .bottom-nav .nav-item:hover {
+      color: #f8b400;
+    }
+    .icon-badge-container {
+      position: relative;
+      display: inline-block;
+    }
+    .badge {
+      position: absolute;
+      top: -6px;
+      right: -10px;
+      background: #d24540;
+      color: #fff;
+      border-radius: 50%;
+      width: 20px;
+      height: 20px;
+      font-size: 0.5em;
+      font-weight: bold;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 2;
+      border: 2.5px solid #fff;
+      box-shadow: 0 2px 8px rgba(210,69,64,0.18);
+      transition: background 0.2s, box-shadow 0.2s;
+      letter-spacing: 0;
+      padding: 0;
+    }
+    @media (max-width: 600px) {
+      .bottom-nav { height: 80px; }
+    }
+    .chat-container {
+      max-width: 700px;
+      margin: 40px auto 120px auto;
+      background: #fff;
+      border-radius: 28px;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.10);
+      padding: 0 0 24px 0;
+      display: flex;
+      flex-direction: column;
+      min-height: 600px;
+    }
+    .chat-header-top {
+      background: #d24540;
+      color: #fff;
+      border-radius: 28px 28px 0 0;
+      padding: 24px 32px 18px 32px;
+      font-size: 2em;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 18px;
+    }
+    .chat-header-avatar {
+      width: 54px;
+      height: 54px;
+      border-radius: 50%;
+      background: #fffbe9;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2em;
+      color: #d24540;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+    }
+    .chat-header-icon {
+      font-size: 2.2em;
+      margin-right: 12px;
+      color: #fffbe9;
+      filter: drop-shadow(0 2px 4px rgba(0,0,0,0.10));
+    }
+    .mensagens-area {
+      flex: none;
+      height: 420px;
+      max-height: 60vh;
+      min-height: 200px;
+      padding: 24px 18px 40px 18px;
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+      overflow-y: auto;
+      background: #4a6fa5;
+      border-radius: 0 0 28px 28px;
+      scrollbar-width: thin;
+      scrollbar-color: #5a86bb #f3efea;
+    }
+    .mensagens-area::-webkit-scrollbar {
+      width: 18px;
+      background: transparent;
+    }
+    .mensagens-area::-webkit-scrollbar-thumb {
+      background: #5a86bb;
+      border-radius: 16px;
+      border: 6px solid #f3efea;
+      min-height: 40px;
+    }
+    .mensagens-area::-webkit-scrollbar-track {
+      background: transparent;
+      border-radius: 16px;
+    }
+    .mensagem {
+      display: flex;
+      align-items: flex-end;
+      gap: 10px;
+      max-width: 90%;
+      margin-bottom: 8px;
+    }
+    .mensagem.usuario {
+      flex-direction: row-reverse;
+      align-self: flex-end;
+    }
+    .mensagem.instituicao {
+      align-self: flex-start;
+    }
+    .mensagem-avatar {
+      width: 40px;
+      height: 40px;
+      min-width: 40px;
+      min-height: 40px;
+      max-width: 40px;
+      max-height: 40px;
+      border-radius: 50%;
+      background: #fffbe9;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.3em;
+      color: #d24540;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+      flex-shrink: 0;
+    }
+    .mensagem-balao {
+      background: #fff;
+      color: #3b2e2a;
+      border-radius: 18px;
+      padding: 12px 18px;
+      font-size: 1.1em;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+      max-width: 320px;
+      word-break: break-word;
+      flex: 1 1 auto;
+    }
+    .mensagem.usuario .mensagem-balao {
+      background: #f8b400;
+      color: #fff;
+      border-bottom-right-radius: 6px;
+      border-bottom-left-radius: 18px;
+    }
+    .mensagem.instituicao .mensagem-balao {
+      background: #fff;
+      color: #3b2e2a;
+      border-bottom-left-radius: 6px;
+      border-bottom-right-radius: 18px;
+    }
+    @media (max-width: 900px) {
+      .chat-container { max-width: 99vw; }
+    }
+  </style>
+</head>
+<body>
+  <div class="chat-container">
+    <div class="chat-header-top">
+      <span class="chat-header-icon" id="iconOutro"><i class="fas fa-user"></i></span>
+      <span id="nomeOutro">Nome</span>
+    </div>
+    <div class="mensagens-area" id="mensagensArea">
+      <!-- Mensagens serão inseridas aqui via JS -->
+    </div>
+    <form class="enviar-form" id="formEnviar">
+      <input type="text" id="inputMensagem" placeholder="Digite sua mensagem..." required />
+      <button type="submit"><i class="fas fa-paper-plane"></i></button>
+    </form>
+  </div>
+  <nav class="bottom-nav">
+    <a href="home.html" class="nav-item"><i class="fas fa-home"></i></a>
+    <a href="notificacoes.html" class="nav-item" id="notificacoesNav">
+      <span class="icon-badge-container"><i class="fas fa-bell"></i><span class="badge" id="notificacoesBadge" style="display:none;">●</span></span>
+    </a>
+    <a href="agenda.html" class="nav-item"><i class="fas fa-calendar-alt"></i></a>
+    <a href="chat.html" class="nav-item active"><i class="fas fa-comments"></i></a>
+    <a href="configuracoes.html" class="nav-item"><i class="fas fa-cog"></i></a>
+  </nav>
+  <script>
+    const urlParams = new URLSearchParams(window.location.search);
+    const conversaId = urlParams.get('id');
+    const userId = localStorage.getItem('userId');
+    if (!conversaId || !userId) {
+      window.location.href = '/chat.html';
+    }
+    async function carregarMensagens() {
+      const resp = await fetch(`/mensagens?conversa_id=${conversaId}`);
+      const msgs = await resp.json();
+      const mensagensDiv = document.getElementById('mensagensArea');
+      mensagensDiv.innerHTML = '';
+      for (const msg of msgs) {
+        const div = document.createElement('div');
+        div.className = 'mensagem ' + (msg.remetente_id === userId ? 'usuario' : 'instituicao');
+        div.innerHTML = `
+          <div class="mensagem-avatar">${msg.remetente_id === userId ? '<i class="fas fa-user"></i>' : '<i class="fas fa-building"></i>'}</div>
+          <div class="mensagem-balao">${msg.texto}</div>
+        `;
+        mensagensDiv.appendChild(div);
+      }
+      mensagensDiv.scrollTop = mensagensDiv.scrollHeight;
+    }
+    document.addEventListener('DOMContentLoaded', carregarMensagens);
+    document.getElementById('formEnviar').addEventListener('submit', async function(e) {
+      e.preventDefault();
+      const texto = document.getElementById('inputMensagem').value.trim();
+      if (!texto) return;
+      await fetch('/mensagem', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ conversa_id: conversaId, remetente_id: userId, texto })
+      });
+      document.getElementById('inputMensagem').value = '';
+      carregarMensagens();
+    });
+    // Atualização automática a cada 3 segundos
+    setInterval(carregarMensagens, 3000);
+    // Função para buscar e exibir o nome e ícone do outro participante
+    async function carregarNomeOutro() {
+      const urlParams = new URLSearchParams(window.location.search);
+      const conversaId = urlParams.get('id');
+      const userId = localStorage.getItem('userId');
+      const userType = localStorage.getItem('userType');
+      if (!conversaId || !userId || !userType) return;
+      const resp = await fetch(`/conversas?id=${userId}&tipo=${userType}`);
+      const conversas = await resp.json();
+      const conversa = conversas.find(c => c.id == conversaId);
+      if (!conversa) return;
+      let nomeOutro = '';
+      let iconeOutro = '';
+      if (userType === 'usuario') {
+        const respInst = await fetch(`/dados`);
+        const dados = await respInst.json();
+        const inst = dados.instituicoes.find(i => i.id === conversa.instituicao_id);
+        nomeOutro = inst ? inst.nome : conversa.instituicao_id;
+        iconeOutro = '<i class="fas fa-building"></i>';
+      } else {
+        const respUser = await fetch(`/dados`);
+        const dados = await respUser.json();
+        const user = dados.usuarios.find(u => u.id === conversa.usuario_id);
+        nomeOutro = user ? user.nome : conversa.usuario_id;
+        iconeOutro = '<i class="fas fa-user"></i>';
+      }
+      document.getElementById('nomeOutro').textContent = nomeOutro;
+      document.getElementById('iconOutro').innerHTML = iconeOutro;
+    }
+    document.addEventListener('DOMContentLoaded', carregarNomeOutro);
+    function atualizarBadgeNotificacoes() {
+      const badge = document.getElementById('notificacoesBadge');
+      const userId = localStorage.getItem('userId');
+      const userType = localStorage.getItem('userType');
+      if (!userId || !userType) return;
+      fetch(`/notificacoes?id=${userId}&tipo=${userType}`)
+        .then(res => res.json())
+        .then(notificacoes => {
+          const naoLidas = notificacoes.filter(n => !n.lida);
+          if (naoLidas.length > 0) {
+            badge.style.display = 'flex';
+            badge.textContent = naoLidas.length;
+          } else {
+            badge.style.display = 'none';
+          }
+        })
+        .catch(error => {
+          console.error('Erro ao verificar notificações:', error);
+        });
+    }
+    document.addEventListener('DOMContentLoaded', atualizarBadgeNotificacoes);
+    // Atualiza o badge a cada 30 segundos
+    setInterval(atualizarBadgeNotificacoes, 30000);
+    async function marcarNotificacoesLidasConversa() {
+      const userId = localStorage.getItem('userId');
+      const userType = localStorage.getItem('userType');
+      const urlParams = new URLSearchParams(window.location.search);
+      const conversaId = urlParams.get('id');
+      if (!userId || !userType || !conversaId) return;
+      await fetch('/notificacoes-ler-conversa', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ conversa_id: conversaId, userId, userType })
+      });
+    }
+    document.addEventListener('DOMContentLoaded', marcarNotificacoesLidasConversa);
+  </script>
+</body>
+</html> 

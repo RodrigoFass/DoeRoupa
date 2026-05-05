@@ -1,0 +1,22 @@
+{
+    "name": "ReVeste app",
+    "short_name": "ReVeste",
+    "start_url": "./login",
+    "display": "standalone",
+    "background_color": "#efcdc2",
+    "theme_color": "#d24540",
+    "description": "Aplicação de cadastro de usuários e instituições",
+    "icons": [
+      {
+        "src": "icon-192x192.png",
+        "sizes": "192x192",
+        "type": "image/png"
+      },
+      {
+        "src": "icon-512x512.png",
+        "sizes": "512x512",
+        "type": "image/png"
+      }
+    ]
+  }
+  

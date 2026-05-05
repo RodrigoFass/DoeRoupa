@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Contato</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Poppins', Arial, sans-serif;
+      background: #F0CDC3;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .contato-header {
+      background: #d24540;
+      color: #fff;
+      border-radius: 32px;
+      padding: 28px 54px 18px 54px;
+      font-size: 2.7em;
+      font-weight: 700;
+      width: fit-content;
+      min-width: 220px;
+      max-width: 95vw;
+      margin: 48px auto 32px auto;
+      font-family: inherit;
+      box-shadow: 0 8px 32px rgba(210,69,64,0.13), 0 2px 8px rgba(0,0,0,0.08);
+      text-align: center;
+      letter-spacing: 0.5px;
+    }
+    .contato-container {
+      background: #fff;
+      border-radius: 24px;
+      padding: 32px;
+      width: 90%;
+      max-width: 600px;
+      margin: 20px auto;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+    }
+    .contato-item {
+      display: flex;
+      align-items: center;
+      margin-bottom: 24px;
+      padding: 16px;
+      background: #f9f5e9;
+      border-radius: 16px;
+      transition: transform 0.2s;
+    }
+    .contato-item:hover {
+      transform: scale(1.02);
+    }
+    .contato-item i {
+      font-size: 2em;
+      color: #d24540;
+      margin-right: 20px;
+      width: 40px;
+      text-align: center;
+    }
+    .contato-info {
+      flex: 1;
+    }
+    .contato-info h3 {
+      margin: 0;
+      color: #4a6fa5;
+      font-size: 1.2em;
+    }
+    .contato-info p {
+      margin: 5px 0 0 0;
+      color: #666;
+    }
+    .bottom-nav {
+      position: fixed;
+      left: 0;
+      bottom: 0;
+      width: 100vw;
+      background: #4a6fa5;
+      box-shadow: 0 -2px 8px rgba(0,0,0,0.08);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 80px;
+      z-index: 100;
+    }
+    .bottom-nav .nav-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      flex: 1 1 0;
+      height: 100%;
+      color: #fff;
+      font-size: 2em;
+      text-decoration: none;
+      font-family: 'Poppins', 'Segoe UI', Arial, sans-serif;
+      font-weight: 600;
+      transition: color 0.2s;
+      padding: 0;
+      margin: 0;
+    }
+    .bottom-nav .nav-item i {
+      font-size: 1.5em;
+      margin: 0 auto;
+      display: block;
+    }
+    .bottom-nav .nav-item.active,
+    .bottom-nav .nav-item:hover {
+      color: #f8b400;
+    }
+    .icon-badge-container {
+      position: relative;
+      display: inline-block;
+    }
+    .badge {
+      position: absolute;
+      top: -6px;
+      right: -10px;
+      background: #d24540;
+      color: #fff;
+      border-radius: 50%;
+      width: 20px;
+      height: 20px;
+      font-size: 0.5em;
+      font-weight: bold;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 2;
+      border: 2.5px solid #fff;
+      box-shadow: 0 2px 8px rgba(210,69,64,0.18);
+      transition: background 0.2s, box-shadow 0.2s;
+      letter-spacing: 0;
+      padding: 0;
+    }
+    @media (max-width: 600px) {
+      .contato-header {
+        font-size: 1.3em;
+        padding: 14px 10vw 10px 10vw;
+        margin: 18px auto 32px auto;
+        min-width: 0;
+        width: 90vw;
+        border-radius: 22px;
+      }
+      .contato-container {
+        padding: 20px;
+        width: 95%;
+      }
+      .contato-item {
+        padding: 12px;
+      }
+      .contato-item i {
+        font-size: 1.5em;
+      }
+      .bottom-nav { height: 80px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="contato-header">Contato</div>
+  <div class="contato-container">
+    <div class="contato-item">
+      <i class="fas fa-envelope"></i>
+      <div class="contato-info">
+        <h3>Email</h3>
+        <p>contato@doacaofacil.com.br</p>
+      </div>
+    </div>
+    <div class="contato-item">
+      <i class="fas fa-phone"></i>
+      <div class="contato-info">
+        <h3>Telefone</h3>
+        <p>(11) 99999-9999</p>
+      </div>
+    </div>
+  </div>
+
+  <nav class="bottom-nav">
+    <a href="home.html" class="nav-item"><i class="fas fa-home"></i></a>
+    <a href="notificacoes.html" class="nav-item" id="notificacoesNav">
+      <span class="icon-badge-container"><i class="fas fa-bell"></i><span class="badge" id="notificacoesBadge" style="display:none;">●</span></span>
+    </a>
+    <a href="agenda.html" class="nav-item"><i class="fas fa-calendar-alt"></i></a>
+    <a href="chat.html" class="nav-item"><i class="fas fa-comments"></i></a>
+    <a href="configuracoes.html" class="nav-item"><i class="fas fa-cog"></i></a>
+  </nav>
+
+  <script>
+    async function verificarTipoUsuario() {
+      let tipo = localStorage.getItem('userType');
+      let id = localStorage.getItem('userId');
+      if (!id) {
+        window.location.href = '/login';
+        return;
+      }
+      if (!tipo) {
+        try {
+          const response = await fetch(`/verificar-tipo?id=${id}`);
+          const data = await response.json();
+          if (!data.tipo) {
+            window.location.href = '/login';
+            return;
+          }
+          localStorage.setItem('userType', data.tipo);
+        } catch (error) {
+          console.error('Erro ao verificar tipo de usuário:', error);
+          window.location.href = '/login';
+        }
+      }
+    }
+    document.addEventListener('DOMContentLoaded', verificarTipoUsuario);
+
+    function atualizarBadgeNotificacoes() {
+      const badge = document.getElementById('notificacoesBadge');
+      const userId = localStorage.getItem('userId');
+      const userType = localStorage.getItem('userType');
+      if (!userId || !userType) return;
+      fetch(`/notificacoes?id=${userId}&tipo=${userType}`)
+        .then(res => res.json())
+        .then(notificacoes => {
+          const naoLidas = notificacoes.filter(n => !n.lida);
+          if (naoLidas.length > 0) {
+            badge.style.display = 'flex';
+            badge.textContent = naoLidas.length;
+          } else {
+            badge.style.display = 'none';
+          }
+        })
+        .catch(error => {
+          console.error('Erro ao verificar notificações:', error);
+        });
+    }
+    document.addEventListener('DOMContentLoaded', atualizarBadgeNotificacoes);
+    // Atualiza o badge a cada 30 segundos
+    setInterval(atualizarBadgeNotificacoes, 30000);
+  </script>
+</body>
+</html> 

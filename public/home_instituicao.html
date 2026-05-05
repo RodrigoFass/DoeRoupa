@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Home Instituição</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- FontAwesome para ícones -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Poppins', Arial, sans-serif;
+      background: #F0CDC3;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .header {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 36px 0 16px 0;
+      width: 100vw;
+      box-sizing: border-box;
+    }
+    .logo {
+      width: 240px;
+      margin-bottom: 18px;
+    }
+    .search-bar {
+      display: flex;
+      align-items: center;
+      background: #8c7b75;
+      border-radius: 32px;
+      padding: 14px 28px;
+      width: calc(100% - 32px);
+      max-width: 480px;
+      margin: 0 auto 28px auto;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.10);
+      box-sizing: border-box;
+      margin-left: 16px;
+      margin-right: 16px;
+      transition: box-shadow 0.2s;
+    }
+    .search-bar:focus-within {
+      box-shadow: 0 8px 24px rgba(0,0,0,0.13);
+    }
+    .search-bar i {
+      color: #fff;
+      font-size: 1.4em;
+      margin-right: 14px;
+    }
+    .search-bar input {
+      border: none;
+      background: transparent;
+      outline: none;
+      color: #fff;
+      font-size: 1.1em;
+      width: 100%;
+    }
+    .main-content {
+      flex: 1;
+      padding-bottom: 100px;
+      max-width: 540px;
+      width: 100vw;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      box-sizing: border-box;
+      padding-left: 12px;
+      padding-right: 12px;
+    }
+    .card {
+      background: #fff;
+      border-radius: 24px;
+      box-shadow: 0 6px 24px rgba(0,0,0,0.10);
+      display: flex;
+      align-items: center;
+      margin: 22px 0;
+      padding: 28px 22px;
+      gap: 20px;
+      position: relative;
+      width: 100%;
+      max-width: 380px;
+      transition: box-shadow 0.2s, transform 0.2s;
+      box-sizing: border-box;
+      cursor: pointer;
+    }
+    .card:hover {
+      box-shadow: 0 12px 32px rgba(0,0,0,0.13);
+      transform: translateY(-2px) scale(1.01);
+    }
+    .avatar {
+      width: 64px;
+      height: 64px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #f2c6b2 60%, #f8b400 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2.3em;
+      color: #fff;
+      flex-shrink: 0;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+      align-self: center;
+    }
+    .card-content {
+      flex: 1;
+      min-width: 0;
+    }
+    .card-title {
+      font-weight: 700;
+      font-size: 1.18em;
+      color: #3b2e2a;
+      margin-bottom: 4px;
+      word-break: break-word;
+    }
+    .card-desc {
+      font-size: 1em;
+      color: #6d5c57;
+      margin-bottom: 6px;
+      word-break: break-word;
+    }
+    .card-actions {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 14px;
+      margin-left: 10px;
+      align-self: center;
+    }
+    .card-actions button {
+      background: #f8b400;
+      border: none;
+      border-radius: 50%;
+      width: 44px;
+      height: 44px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      font-size: 1.3em;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.2s;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+    }
+    .card-actions button:hover {
+      background: #e09e00;
+      transform: scale(1.08);
+    }
+    .bottom-nav {
+      position: fixed;
+      left: 0;
+      bottom: 0;
+      width: 100vw;
+      background: #4a6fa5;
+      box-shadow: 0 -2px 8px rgba(0,0,0,0.08);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 80px;
+      z-index: 100;
+    }
+    .bottom-nav .nav-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      flex: 1 1 0;
+      height: 100%;
+      color: #fff;
+      font-size: 2em;
+      text-decoration: none;
+      font-family: 'Poppins', 'Segoe UI', Arial, sans-serif;
+      font-weight: 600;
+      transition: color 0.2s;
+      padding: 0;
+      margin: 0;
+    }
+    .bottom-nav .nav-item i {
+      font-size: 1.5em;
+      margin: 0 auto;
+      display: block;
+    }
+    .bottom-nav .nav-item.active,
+    .bottom-nav .nav-item:hover {
+      color: #f8b400;
+    }
+    .icon-badge-container {
+      position: relative;
+      display: inline-block;
+    }
+    .badge {
+      position: absolute;
+      top: -6px;
+      right: -10px;
+      background: #d24540;
+      color: #fff;
+      border-radius: 50%;
+      width: 20px;
+      height: 20px;
+      font-size: 0.5em;
+      font-weight: bold;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 2;
+      border: 2.5px solid #fff;
+      box-shadow: 0 2px 8px rgba(210,69,64,0.18);
+      transition: background 0.2s, box-shadow 0.2s;
+      letter-spacing: 0;
+      padding: 0;
+    }
+    @media (max-width: 600px) {
+      html, body { overflow-x: hidden; }
+      .main-content {
+        padding-bottom: 100px;
+        max-width: 100vw;
+        padding-left: 2vw;
+        padding-right: 2vw;
+      }
+      .search-bar {
+        width: calc(100% - 16px);
+        max-width: 100vw;
+        margin-left: 8px;
+        margin-right: 8px;
+      }
+      .card {
+        max-width: 98vw;
+      }
+      .header { padding: 18px 0 8px 0; }
+      .logo { width: 180px; }
+      .bottom-nav { height: 80px; }
+    }
+    @media (min-width: 900px) {
+      .main-content { max-width: 700px; }
+      .card { max-width: 600px; }
+      .search-bar { max-width: 600px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <img src="logo.png" alt="Logo" class="logo">
+    <div class="search-bar">
+      <i class="fas fa-search"></i>
+      <input type="text" id="searchInput" placeholder="Buscar doadores...">
+    </div>
+  </div>
+  <div class="main-content" id="cardsContainer">
+    <!-- Cards serão inseridos aqui via JS -->
+  </div>
+  <nav class="bottom-nav">
+    <a href="home_instituicao.html" class="nav-item active"><i class="fas fa-home"></i></a>
+    <a href="notificacoes.html" class="nav-item" id="notificacoesNav">
+      <span class="icon-badge-container"><i class="fas fa-bell"></i><span class="badge" id="notificacoesBadge" style="display:none;">●</span></span>
+    </a>
+    <a href="agenda.html" class="nav-item"><i class="fas fa-calendar-alt"></i></a>
+    <a href="chat.html" class="nav-item"><i class="fas fa-comments"></i></a>
+    <a href="configuracoes.html" class="nav-item"><i class="fas fa-cog"></i></a>
+  </nav>
+  <script>
+    // Proteção de acesso: só instituição pode acessar
+    if (localStorage.getItem('userType') === 'usuario') {
+      window.location.href = '/home.html';
+    }
+    async function carregarCards(filtro = "") {
+      const container = document.getElementById('cardsContainer');
+      container.innerHTML = '';
+      try {
+        const resposta = await fetch('/doacoes');
+        const doacoes = await resposta.json();
+        // Exibir cada doação com nome do doador e roupas
+        doacoes.forEach(doacao => {
+          if (filtro && doacao.usuario_nome && !doacao.usuario_nome.toLowerCase().includes(filtro.toLowerCase())) return;
+          const card = document.createElement('div');
+          card.className = 'card';
+          card.innerHTML = `
+            <div class="avatar"><i class="fas fa-user"></i></div>
+            <div class="card-content">
+              <div class="card-title">${doacao.usuario_nome || 'Usuário desconhecido'}</div>
+              <div class="card-desc">
+                ${doacao.usuario_endereco ? `Endereço: ${doacao.usuario_endereco}<br>` : ''}
+                ${doacao.usuario_email ? `Email: ${doacao.usuario_email}<br>` : ''}
+                ${doacao.usuario_telefone ? `Telefone: ${doacao.usuario_telefone}<br>` : ''}
+                <b>Doando:</b> <span style='color:#f8b400'>${doacao.roupas}</span>
+              </div>
+            </div>
+            <div class="card-actions">
+              <button class="btn-chat" title="Conversar"><i class="fas fa-comments"></i></button>
+            </div>
+          `;
+          // Evento de clique no botão de chat
+          card.querySelector('.btn-chat').onclick = async function(e) {
+            e.stopPropagation();
+            const usuario_id = doacao.usuario_id;
+            const instituicao_id = localStorage.getItem('userId');
+            // Buscar ou criar conversa
+            const respConversa = await fetch('/criar-conversa', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ usuario_id, instituicao_id })
+            });
+            const conversa = await respConversa.json();
+            window.location.href = `conversa.html?id=${conversa.id}`;
+          };
+          container.appendChild(card);
+        });
+        if (container.innerHTML === '') {
+          container.innerHTML = '<p style="text-align:center;color:#c00;">Nenhuma doação encontrada.</p>';
+        }
+      } catch (error) {
+        container.innerHTML = '<p style="text-align:center;color:#c00;">Erro ao carregar doações.</p>';
+      }
+    }
+    document.getElementById('searchInput').addEventListener('input', function() {
+      carregarCards(this.value);
+    });
+    window.onload = () => carregarCards();
+    function atualizarBadgeNotificacoes() {
+      const badge = document.getElementById('notificacoesBadge');
+      const userId = localStorage.getItem('userId');
+      const userType = localStorage.getItem('userType');
+      if (!userId || !userType) return;
+      fetch(`/notificacoes?id=${userId}&tipo=${userType}`)
+        .then(res => res.json())
+        .then(notificacoes => {
+          const naoLidas = notificacoes.filter(n => !n.lida);
+          if (naoLidas.length > 0) {
+            badge.style.display = 'flex';
+            badge.textContent = naoLidas.length;
+          } else {
+            badge.style.display = 'none';
+          }
+        })
+        .catch(error => {
+          console.error('Erro ao verificar notificações:', error);
+        });
+    }
+    document.addEventListener('DOMContentLoaded', atualizarBadgeNotificacoes);
+    // Atualiza o badge a cada 30 segundos
+    setInterval(atualizarBadgeNotificacoes, 30000);
+  </script>
+</body>
+</html> 

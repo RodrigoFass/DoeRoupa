@@ -1,0 +1,649 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Agenda</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Poppins', Arial, sans-serif;
+      background: #F0CDC3;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .agenda-header {
+      background: #d24540;
+      color: #fff;
+      border-radius: 32px;
+      padding: 28px 54px 18px 54px;
+      font-size: 2.7em;
+      font-weight: 700;
+      width: fit-content;
+      min-width: 220px;
+      max-width: 95vw;
+      margin: 48px auto 32px auto;
+      font-family: inherit;
+      box-shadow: 0 8px 32px rgba(210,69,64,0.13), 0 2px 8px rgba(0,0,0,0.08);
+      text-align: center;
+      letter-spacing: 0.5px;
+    }
+    .calendar-container {
+      background: none;
+      margin: 0 auto;
+      padding: 0;
+      width: 98vw;
+      max-width: 600px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      position: relative;
+    }
+    .calendar-header {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #d24540;
+      color: #fff;
+      border-radius: 22px;
+      padding: 14px 36px;
+      font-size: 1.45em;
+      font-weight: 700;
+      width: fit-content;
+      min-width: 220px;
+      margin: 0 0 32px 0;
+      box-shadow: 0 8px 32px rgba(210,69,64,0.13), 0 2px 8px rgba(0,0,0,0.08);
+      text-align: center;
+      letter-spacing: 0.5px;
+    }
+    .calendar-header i {
+      margin-left: 10px;
+      font-size: 1.3em;
+      cursor: pointer;
+      transition: color 0.2s;
+    }
+    .calendar-header i:hover {
+      color: #f8b400;
+    }
+    .calendar-table {
+      width: 100%;
+      border-collapse: separate;
+      border-spacing: 0;
+      background: #f9f5e9;
+      border-radius: 18px;
+      overflow: hidden;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.10);
+      margin-bottom: 24px;
+      transition: box-shadow 0.2s;
+      margin-left: 0;
+      margin-right: 0;
+    }
+    .calendar-table th, .calendar-table td {
+      width: 14.28%;
+      height: 52px;
+      text-align: center;
+      font-size: 1.15em;
+      border: 1.5px solid #e07a6b;
+      color: #d24540;
+      background: #f9f5e9;
+      position: relative;
+      transition: background 0.2s;
+      border-radius: 8px;
+    }
+    .calendar-table th {
+      background: #d24540;
+      color: #fff;
+      font-weight: bold;
+      font-size: 1.05em;
+      border-radius: 0;
+      border: 1.5px solid #d24540;
+    }
+    .calendar-table td.event {
+      background: #e6f0fa;
+      border: 2px solid #2980d9;
+      color: #2980d9;
+      font-weight: bold;
+      box-shadow: 0 2px 8px rgba(41,128,217,0.08);
+      border-radius: 10px;
+    }
+    .calendar-table td:hover {
+      background: #f8e3d6;
+      cursor: pointer;
+      z-index: 1;
+    }
+    .calendar-table td.event .event-label {
+      display: block;
+      background: #2980d9;
+      color: #fff;
+      border-radius: 6px;
+      font-size: 0.85em;
+      padding: 2px 8px;
+      margin: 4px auto 0 auto;
+      width: fit-content;
+      box-shadow: 0 1px 4px rgba(41,128,217,0.10);
+    }
+    .bottom-nav {
+      position: fixed;
+      left: 0;
+      bottom: 0;
+      width: 100vw;
+      background: #4a6fa5;
+      box-shadow: 0 -2px 8px rgba(0,0,0,0.08);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 80px;
+      z-index: 100;
+    }
+    .bottom-nav .nav-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      flex: 1 1 0;
+      height: 100%;
+      color: #fff;
+      font-size: 2em;
+      text-decoration: none;
+      font-family: 'Poppins', 'Segoe UI', Arial, sans-serif;
+      font-weight: 600;
+      transition: color 0.2s;
+      padding: 0;
+      margin: 0;
+    }
+    .bottom-nav .nav-item i {
+      font-size: 1.5em;
+      margin: 0 auto;
+      display: block;
+    }
+    .bottom-nav .nav-item.active,
+    .bottom-nav .nav-item:hover {
+      color: #f8b400;
+    }
+    .icon-badge-container {
+      position: relative;
+      display: inline-block;
+    }
+    .badge {
+      position: absolute;
+      top: -6px;
+      right: -10px;
+      background: #d24540;
+      color: #fff;
+      border-radius: 50%;
+      width: 20px;
+      height: 20px;
+      font-size: 0.5em;
+      font-weight: bold;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 2;
+      border: 2.5px solid #fff;
+      box-shadow: 0 2px 8px rgba(210,69,64,0.18);
+      transition: background 0.2s, box-shadow 0.2s;
+      letter-spacing: 0;
+      padding: 0;
+    }
+    @media (max-width: 600px) {
+      html, body { overflow-x: hidden; }
+      .calendar-container { max-width: 100vw; padding: 0 2vw; }
+      .agenda-header {
+        font-size: 1.3em;
+        padding: 14px 10vw 10px 10vw;
+        margin: 18px auto 32px auto;
+        min-width: 0;
+        width: 90vw;
+        border-radius: 22px;
+      }
+      .calendar-header {
+        font-size: 1.1em;
+        padding: 10px 8vw 10px 8vw;
+        min-width: 0;
+        width: 80vw;
+        border-radius: 16px;
+        margin-bottom: 24px;
+      }
+      .calendar-table th, .calendar-table td {
+        font-size: 0.98em;
+        height: 34px;
+        min-width: 32px;
+        max-width: 40px;
+        padding: 0;
+      }
+      .calendar-table { margin-top: 0; }
+      .bottom-nav { height: 80px; }
+    }
+    @media (min-width: 900px) {
+      .calendar-container { max-width: 700px; }
+      .calendar-table { max-width: 700px; }
+    }
+    .modal-anotacao {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.5);
+      z-index: 1000;
+      justify-content: center;
+      align-items: center;
+    }
+    .modal-content {
+      background: #f9f5e9;
+      padding: 32px 24px;
+      border-radius: 24px;
+      width: 100%;
+      max-width: 420px;
+      margin: 0 auto;
+      position: relative;
+      box-shadow: 0 8px 32px rgba(210,69,64,0.13), 0 2px 8px rgba(0,0,0,0.08);
+      box-sizing: border-box;
+      overflow-x: hidden;
+    }
+    .modal-content h2 {
+      color: #d24540;
+      font-size: 1.8em;
+      font-weight: 700;
+      margin-bottom: 24px;
+      text-align: center;
+    }
+    .close-modal {
+      position: absolute;
+      right: 20px;
+      top: 20px;
+      font-size: 28px;
+      cursor: pointer;
+      color: #d24540;
+      transition: transform 0.2s;
+      width: 32px;
+      height: 32px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+    }
+    .close-modal:hover {
+      transform: scale(1.1);
+      background: rgba(210,69,64,0.1);
+    }
+    .form-group {
+      margin-bottom: 24px;
+    }
+    .form-group label {
+      display: block;
+      margin-bottom: 8px;
+      color: #4a6fa5;
+      font-weight: 600;
+      font-size: 1.1em;
+    }
+    .form-control {
+      width: 100%;
+      max-width: 100%;
+      box-sizing: border-box;
+      padding: 12px 16px;
+      border: 1px solid #ddd;
+      border-radius: 16px;
+      font-size: 1em;
+      background: #f5eadf;
+      color: #333;
+      transition: border-color 0.2s, box-shadow 0.2s;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+      resize: none;
+    }
+    .form-control:focus {
+      outline: none;
+      border-color: #4a6fa5;
+      box-shadow: 0 0 0 2px rgba(74,111,165,0.10);
+    }
+    .form-control::placeholder {
+      color: #aaa;
+      font-size: 0.98em;
+    }
+    .btn-salvar {
+      background: #4a6fa5;
+      color: #fff;
+      border: none;
+      border-radius: 16px;
+      padding: 16px 32px;
+      font-size: 1.2em;
+      font-weight: 600;
+      cursor: pointer;
+      width: 100%;
+      transition: all 0.2s;
+      margin-top: 8px;
+      box-shadow: 0 4px 12px rgba(74,111,165,0.2);
+    }
+    .btn-salvar:hover {
+      background: #3a5a8c;
+      transform: translateY(-2px);
+      box-shadow: 0 6px 16px rgba(74,111,165,0.3);
+    }
+    .btn-salvar:active {
+      transform: translateY(0);
+      box-shadow: 0 2px 8px rgba(74,111,165,0.2);
+    }
+    .calendar-table td.has-note {
+      position: relative;
+    }
+    .calendar-table td.has-note::after {
+      content: '';
+      position: absolute;
+      bottom: 4px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 6px;
+      height: 6px;
+      background: #4a6fa5;
+      border-radius: 50%;
+      box-shadow: 0 2px 4px rgba(74,111,165,0.2);
+    }
+    .note-preview {
+      position: absolute;
+      background: #f9f5e9;
+      padding: 12px 16px;
+      border-radius: 12px;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+      z-index: 10;
+      max-width: 250px;
+      display: none;
+      font-size: 0.95em;
+      color: #333;
+      border: 2px solid #e07a6b;
+      margin-top: 8px;
+    }
+    .calendar-table td.has-note:hover .note-preview {
+      display: block;
+    }
+    @media (max-width: 600px) {
+      .modal-content {
+        padding: 20px 8px;
+        max-width: 98vw;
+        margin: 0 1vw;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="agenda-header">Agenda</div>
+  <div class="calendar-container">
+    <div class="calendar-header">
+      <i class="fas fa-chevron-left" id="prevMes"></i>
+      <span id="mesAno" style="margin: 0 10px;"></span>
+      <i class="fas fa-chevron-right" id="nextMes"></i>
+    </div>
+    <table class="calendar-table" id="calendarTable">
+      <!-- Calendário será preenchido via JS -->
+    </table>
+  </div>
+  <nav class="bottom-nav">
+    <a href="home.html" class="nav-item"><i class="fas fa-home"></i></a>
+    <a href="notificacoes.html" class="nav-item" id="notificacoesNav">
+      <span class="icon-badge-container"><i class="fas fa-bell"></i><span class="badge" id="notificacoesBadge" style="display:none;">0</span></span>
+    </a>
+    <a href="agenda.html" class="nav-item active"><i class="fas fa-calendar-alt"></i></a>
+    <a href="chat.html" class="nav-item"><i class="fas fa-comments"></i></a>
+    <a href="configuracoes.html" class="nav-item"><i class="fas fa-cog"></i></a>
+  </nav>
+  <!-- Modal de Anotação -->
+  <div id="modalAnotacao" class="modal-anotacao">
+    <div class="modal-content">
+      <span class="close-modal" onclick="fecharModalAnotacao()">&times;</span>
+      <h2>Anotação</h2>
+      <form id="formAnotacao">
+        <div class="form-group">
+          <label for="dataAnotacao">Data</label>
+          <input type="text" id="dataAnotacao" class="form-control" readonly>
+        </div>
+        <div class="form-group">
+          <label for="textoAnotacao">Anotação</label>
+          <textarea id="textoAnotacao" class="form-control" rows="4" placeholder="Digite sua anotação aqui..."></textarea>
+        </div>
+        <button type="submit" class="btn-salvar">Salvar</button>
+        <button type="button" id="btnExcluirAnotacao" class="btn-excluir" style="margin-top:12px; background:#d24540; color:#fff; border:none; border-radius:16px; padding:12px 32px; font-size:1.1em; font-weight:600; width:100%; cursor:pointer; transition:background 0.2s;">Excluir anotação</button>
+      </form>
+    </div>
+  </div>
+  <script>
+    // Exemplo de eventos agendados (depois pode vir do backend)
+    const eventos = [
+      { dia: 16, mes: 3, ano: 2024, label: 'Doação', cor: '#2980d9' },
+      // Adicione mais eventos conforme necessário
+    ];
+
+    const nomesMeses = ['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'];
+    const nomesDias = ['D','S','T','Q','Q','S','S'];
+
+    let dataAtual = new Date();
+    let mesAtual = dataAtual.getMonth();
+    let anoAtual = dataAtual.getFullYear();
+
+    // Obter o id do usuário ou instituição
+    let userId = localStorage.getItem('userId') || sessionStorage.getItem('usuario_id');
+    if (!userId) {
+      userId = 'visitante'; // fallback para testes, mas ideal é redirecionar para login
+    }
+    // Carregar anotações específicas do usuário/instituição
+    let anotacoes = JSON.parse(localStorage.getItem('anotacoes_' + userId)) || {};
+
+    function renderizarCalendario(mes, ano) {
+      const primeiroDia = new Date(ano, mes, 1);
+      const ultimoDia = new Date(ano, mes + 1, 0);
+      const diasNoMes = ultimoDia.getDate();
+      const primeiroDiaSemana = primeiroDia.getDay();
+
+      const tabela = document.getElementById('calendarTable');
+      tabela.innerHTML = `
+        <tr>
+          <th>Dom</th>
+          <th>Seg</th>
+          <th>Ter</th>
+          <th>Qua</th>
+          <th>Qui</th>
+          <th>Sex</th>
+          <th>Sáb</th>
+        </tr>
+      `;
+
+      let data = 1;
+      for (let i = 0; i < 6; i++) {
+        const linha = document.createElement('tr');
+        for (let j = 0; j < 7; j++) {
+          const celula = document.createElement('td');
+          if (i === 0 && j < primeiroDiaSemana) {
+            celula.textContent = '';
+          } else if (data > diasNoMes) {
+            celula.textContent = '';
+          } else {
+            celula.textContent = data;
+            
+            // Adicionar funcionalidade de anotação
+            const dataFormatada = `${data}/${mes + 1}/${ano}`;
+            
+            // Verificar se existe anotação para este dia
+            if (anotacoes[dataFormatada]) {
+              celula.classList.add('has-note');
+              
+              // Adicionar preview da anotação
+              const preview = document.createElement('div');
+              preview.className = 'note-preview';
+              preview.textContent = anotacoes[dataFormatada];
+              celula.appendChild(preview);
+            }
+            
+            // Adicionar evento de clique
+            celula.addEventListener('click', () => abrirModalAnotacao(dataFormatada));
+            
+            data++;
+          }
+          linha.appendChild(celula);
+        }
+        tabela.appendChild(linha);
+        if (data > diasNoMes) break;
+      }
+
+      document.getElementById('mesAno').textContent = `${nomesMeses[mes]} ${ano}`;
+    }
+
+    // Função para atualizar o calendário
+    function atualizarCalendario() {
+      renderizarCalendario(mesAtual, anoAtual);
+    }
+
+    // Inicializar o calendário
+    renderizarCalendario(mesAtual, anoAtual);
+
+    // Eventos de navegação do calendário
+    document.getElementById('prevMes').addEventListener('click', () => {
+      mesAtual--;
+      if (mesAtual < 0) {
+        mesAtual = 11;
+        anoAtual--;
+      }
+      renderizarCalendario(mesAtual, anoAtual);
+    });
+
+    document.getElementById('nextMes').addEventListener('click', () => {
+      mesAtual++;
+      if (mesAtual > 11) {
+        mesAtual = 0;
+        anoAtual++;
+      }
+      renderizarCalendario(mesAtual, anoAtual);
+    });
+
+    // Função para verificar o tipo de usuário
+    async function verificarTipoUsuario() {
+      let tipo = localStorage.getItem('userType');
+      let id = localStorage.getItem('userId');
+      if (!id) {
+        window.location.href = '/login';
+        return;
+      }
+      if (!tipo) {
+        try {
+          const response = await fetch(`/verificar-tipo?id=${id}`);
+          const data = await response.json();
+          if (!data.tipo) {
+            window.location.href = '/login';
+            return;
+          }
+          localStorage.setItem('userType', data.tipo);
+        } catch (error) {
+          console.error('Erro ao verificar tipo de usuário:', error);
+          window.location.href = '/login';
+        }
+      }
+    }
+
+    // Verifica o tipo de usuário quando a página carrega
+    document.addEventListener('DOMContentLoaded', verificarTipoUsuario);
+
+    function atualizarBadgeNotificacoes() {
+      const badge = document.getElementById('notificacoesBadge');
+      const userId = localStorage.getItem('userId');
+      const userType = localStorage.getItem('userType');
+      if (!userId || !userType) return;
+      fetch(`/notificacoes?id=${userId}&tipo=${userType}`)
+        .then(res => res.json())
+        .then(notificacoes => {
+          const naoLidas = notificacoes.filter(n => !n.lida);
+          if (naoLidas.length > 0) {
+            badge.style.display = 'flex';
+            badge.textContent = naoLidas.length;
+          } else {
+            badge.style.display = 'none';
+          }
+        })
+        .catch(error => {
+          console.error('Erro ao verificar notificações:', error);
+        });
+    }
+    document.addEventListener('DOMContentLoaded', atualizarBadgeNotificacoes);
+    setInterval(atualizarBadgeNotificacoes, 30000);
+
+    // Função para abrir o modal de anotação
+    function abrirModalAnotacao(data) {
+      const modal = document.getElementById('modalAnotacao');
+      const dataInput = document.getElementById('dataAnotacao');
+      const textoInput = document.getElementById('textoAnotacao');
+      
+      dataInput.value = data;
+      textoInput.value = anotacoes[data] || '';
+      
+      modal.style.display = 'flex';
+    }
+
+    // Função para fechar o modal
+    function fecharModalAnotacao() {
+      document.getElementById('modalAnotacao').style.display = 'none';
+    }
+
+    // Função para salvar a anotação
+    document.getElementById('formAnotacao').addEventListener('submit', function(e) {
+      e.preventDefault();
+      
+      const data = document.getElementById('dataAnotacao').value;
+      const texto = document.getElementById('textoAnotacao').value;
+      
+      if (texto.trim()) {
+        anotacoes[data] = texto;
+        localStorage.setItem('anotacoes_' + userId, JSON.stringify(anotacoes));
+        
+        Swal.fire({
+          icon: 'success',
+          title: 'Sucesso!',
+          text: 'Anotação salva com sucesso!',
+          confirmButtonColor: '#4a6fa5'
+        });
+        
+        fecharModalAnotacao();
+        atualizarCalendario();
+      } else {
+        delete anotacoes[data];
+        localStorage.setItem('anotacoes_' + userId, JSON.stringify(anotacoes));
+        fecharModalAnotacao();
+        atualizarCalendario();
+      }
+    });
+
+    // Botão para excluir anotação
+    document.getElementById('btnExcluirAnotacao').addEventListener('click', function() {
+      const data = document.getElementById('dataAnotacao').value;
+      if (anotacoes[data]) {
+        Swal.fire({
+          title: 'Tem certeza?',
+          text: 'Deseja realmente excluir esta anotação?',
+          icon: 'warning',
+          showCancelButton: true,
+          confirmButtonColor: '#d24540',
+          cancelButtonColor: '#4a6fa5',
+          confirmButtonText: 'Sim, excluir',
+          cancelButtonText: 'Cancelar'
+        }).then((result) => {
+          if (result.isConfirmed) {
+            delete anotacoes[data];
+            localStorage.setItem('anotacoes_' + userId, JSON.stringify(anotacoes));
+            fecharModalAnotacao();
+            atualizarCalendario();
+            Swal.fire({
+              icon: 'success',
+              title: 'Excluída!',
+              text: 'Anotação excluída com sucesso.',
+              confirmButtonColor: '#4a6fa5'
+            });
+          }
+        });
+      } else {
+        fecharModalAnotacao();
+      }
+    });
+  </script>
+</body>
+</html> 

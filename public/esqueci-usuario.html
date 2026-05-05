@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recuperar Usuário - DoeRoupa</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Baloo+Bhaijaan+2:wght@400..800&family=Figtree:ital,wght@0,300..900;1,300..900&family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Lora:ital,wght@0,400..700;1,400..700&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Overlock:ital,wght@0,400;0,700;0,900;1,400;1,700;1,900&family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            background: #F0CDC3;
+            font-family: 'Poppins', Arial, sans-serif;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .recuperar-container {
+            max-width: 420px;
+            width: 100%;
+            margin: 0 auto;
+            padding: 36px 28px 32px 28px;
+            background: #fff;
+            border-radius: 28px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.10);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .logo {
+            width: 260px;
+            margin-bottom: 28px;
+            display: block;
+        }
+
+        .recuperar-container h2 {
+            color: #d24540;
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 1.8em;
+            font-weight: 600;
+        }
+
+        .form-group {
+            width: 100%;
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #3b2e2a;
+            font-weight: 500;
+            font-size: 1.1em;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 14px;
+            background: #f5eadf;
+            color: #4a6fa5;
+            border: none;
+            border-radius: 16px;
+            font-size: 1.1em;
+            text-align: center;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+            transition: box-shadow 0.2s;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            box-shadow: 0 4px 16px rgba(74,111,165,0.13);
+        }
+
+        .form-group input::placeholder {
+            color: #b6a6a0;
+            text-align: center;
+        }
+
+        .btn-recuperar {
+            width: 100%;
+            padding: 14px;
+            background: #4a6fa5;
+            color: white;
+            border: none;
+            border-radius: 16px;
+            font-size: 1.15em;
+            font-weight: 700;
+            cursor: pointer;
+            transition: background 0.2s, transform 0.2s;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+        }
+
+        .btn-recuperar:hover {
+            background: #d24540;
+            transform: scale(1.03);
+        }
+
+        .mensagem-sucesso {
+            display: none;
+            text-align: center;
+            color: #28a745;
+            margin: 20px auto;
+            padding: 15px;
+            background: #e8f5e9;
+            border-radius: 16px;
+            font-weight: 500;
+            width: 90%;
+            max-width: 320px;
+        }
+
+        .mensagem-erro {
+            display: none;
+            text-align: center;
+            color: #dc3545;
+            margin: 20px auto;
+            padding: 15px;
+            background: #fde8e8;
+            border-radius: 16px;
+            font-weight: 500;
+            width: 90%;
+            max-width: 320px;
+        }
+
+        .voltar-login {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .voltar-login a {
+            color: #4a6fa5;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.1em;
+            transition: color 0.2s;
+        }
+
+        .voltar-login a:hover {
+            color: #d24540;
+            text-decoration: underline;
+        }
+
+        .tipo-conta {
+            width: 100%;
+            margin-bottom: 20px;
+        }
+
+        .tipo-conta select {
+            width: 100%;
+            padding: 14px;
+            background: #f5eadf;
+            color: #4a6fa5;
+            border: none;
+            border-radius: 16px;
+            font-size: 1.1em;
+            text-align: center;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+            transition: box-shadow 0.2s;
+            cursor: pointer;
+        }
+
+        .tipo-conta select:focus {
+            outline: none;
+            box-shadow: 0 4px 16px rgba(74,111,165,0.13);
+        }
+
+        .tipo-conta select option {
+            background: #fff;
+            color: #3b2e2a;
+        }
+
+        @media (max-width: 600px) {
+            .logo { max-width: 160px; }
+            .recuperar-container {
+                max-width: 98vw;
+                padding: 18px 4vw;
+                border-radius: 18px;
+            }
+            .btn-recuperar, .form-group input, .tipo-conta select { 
+                font-size: 1em; 
+                padding: 12px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <center><img class="logo" src="logo.png" alt="Logo"></center>
+    <div class="recuperar-container">
+        <h2>Recuperar Usuário</h2>
+        <form id="recuperarForm">
+            <div class="tipo-conta">
+                <select id="tipoConta" required>
+                    <option value="">Selecione o tipo de conta</option>
+                    <option value="usuario">Usuário (CPF)</option>
+                    <option value="instituicao">Instituição (CNPJ)</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email" required placeholder="Digite seu email cadastrado">
+            </div>
+            <button type="submit" class="btn-recuperar">Recuperar Usuário</button>
+        </form>
+        <div id="mensagemSucesso" class="mensagem-sucesso">
+            Seu usuário foi enviado para o email cadastrado.
+        </div>
+        <div id="mensagemErro" class="mensagem-erro">
+            Email não encontrado. Verifique se o email está correto.
+        </div>
+        <div class="voltar-login">
+            <a href="login.html">Voltar para o Login</a>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('recuperarForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const email = document.getElementById('email').value;
+            const tipoConta = document.getElementById('tipoConta').value;
+            const mensagemSucesso = document.getElementById('mensagemSucesso');
+            const mensagemErro = document.getElementById('mensagemErro');
+            
+            try {
+                const response = await fetch('/recuperar-usuario', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ email, tipoConta })
+                });
+
+                if (response.ok) {
+                    mensagemSucesso.style.display = 'block';
+                    mensagemErro.style.display = 'none';
+                    document.getElementById('recuperarForm').reset();
+                } else {
+                    mensagemErro.style.display = 'block';
+                    mensagemSucesso.style.display = 'none';
+                }
+            } catch (error) {
+                console.error('Erro:', error);
+                mensagemErro.style.display = 'block';
+                mensagemSucesso.style.display = 'none';
+            }
+        });
+    </script>
+</body>
+</html> 

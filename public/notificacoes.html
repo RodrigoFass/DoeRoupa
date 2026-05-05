@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Notificações</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      background: #F0CDC3;
+      font-family: 'Poppins', Arial, sans-serif;
+      margin: 0;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .notificacoes-header {
+      background: #d24540;
+      color: #fff;
+      border-radius: 32px;
+      padding: 28px 54px 18px 54px;
+      font-size: 2.7em;
+      font-weight: 700;
+      width: fit-content;
+      min-width: 220px;
+      max-width: 95vw;
+      margin: 48px auto 32px auto;
+      font-family: inherit;
+      box-shadow: 0 8px 32px rgba(210,69,64,0.13), 0 2px 8px rgba(0,0,0,0.08);
+      text-align: center;
+      letter-spacing: 0.5px;
+    }
+    .notificacoes-container {
+      width: 100vw;
+      max-width: 480px;
+      margin: 0 auto 120px auto;
+      display: flex;
+      flex-direction: column;
+      gap: 22px;
+    }
+    .notificacao-card {
+      background: #fff;
+      border-radius: 18px;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.10);
+      padding: 18px 24px;
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      font-size: 1.1em;
+      color: #4a6fa5;
+      cursor: pointer;
+      transition: box-shadow 0.2s, transform 0.2s;
+    }
+    .notificacao-card:hover {
+      box-shadow: 0 8px 32px rgba(0,0,0,0.13);
+      transform: scale(1.03);
+    }
+    .notificacao-icone {
+      font-size: 2em;
+      color: #f8b400;
+      margin-right: 10px;
+    }
+    .notificacao-titulo {
+      font-weight: 700;
+      color: #d24540;
+      margin-bottom: 2px;
+    }
+    .notificacao-texto {
+      color: #4a6fa5;
+      font-size: 1em;
+    }
+    .sem-notificacoes {
+      color: #b6a6a0;
+      text-align: center;
+      margin-top: 32px;
+    }
+    .bottom-nav {
+      position: fixed;
+      left: 0;
+      bottom: 0;
+      width: 100vw;
+      background: #4a6fa5;
+      box-shadow: 0 -2px 8px rgba(0,0,0,0.08);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 80px;
+      z-index: 100;
+    }
+    .bottom-nav .nav-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      flex: 1 1 0;
+      height: 100%;
+      color: #fff;
+      font-size: 2em;
+      text-decoration: none;
+      font-family: 'Poppins', 'Segoe UI', Arial, sans-serif;
+      font-weight: 600;
+      transition: color 0.2s;
+      padding: 0;
+      margin: 0;
+    }
+    .bottom-nav .nav-item i {
+      font-size: 1.5em;
+      margin: 0 auto;
+      display: block;
+    }
+    .bottom-nav .nav-item.active,
+    .bottom-nav .nav-item:hover {
+      color: #f8b400;
+    }
+    .icon-badge-container {
+      position: relative;
+      display: inline-block;
+    }
+    .badge {
+      position: absolute;
+      top: -6px;
+      right: -10px;
+      background: #d24540;
+      color: #fff;
+      border-radius: 50%;
+      width: 20px;
+      height: 20px;
+      font-size: 0.5em;
+      font-weight: bold;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 2;
+      border: 2.5px solid #fff;
+      box-shadow: 0 2px 8px rgba(210,69,64,0.18);
+      transition: background 0.2s, box-shadow 0.2s;
+      letter-spacing: 0;
+      padding: 0;
+    }
+    @media (max-width: 600px) {
+      .notificacoes-header {
+        font-size: 1.3em;
+        padding: 14px 10vw 10px 10vw;
+        margin: 18px auto 32px auto;
+        min-width: 0;
+        width: 90vw;
+        border-radius: 22px;
+      }
+      .notificacoes-container { max-width: 99vw; gap: 12px; }
+      .notificacao-card { padding: 12px 10px; border-radius: 12px; }
+      .notificacao-icone { font-size: 1.3em; }
+    }
+    @media (max-width: 900px) {
+      .notificacoes-header {
+        font-size: 1.3em;
+        padding: 14px 10vw 10px 10vw;
+        margin: 18px auto 32px auto;
+        min-width: 0;
+        width: 90vw;
+        border-radius: 22px;
+      }
+      .notificacoes-container { max-width: 99vw; gap: 12px; }
+      .notificacao-card { padding: 12px 10px; border-radius: 12px; }
+      .notificacao-icone { font-size: 1.3em; }
+    }
+  </style>
+</head>
+<body>
+  <div class="notificacoes-header">Notificações</div>
+  <div class="notificacoes-container" id="notificacoesContainer">
+    <!-- Notificações serão inseridas aqui via JS -->
+  </div>
+  <nav class="bottom-nav">
+    <a href="home.html" class="nav-item"><i class="fas fa-home"></i></a>
+    <a href="notificacoes.html" class="nav-item active" id="notificacoesNav">
+      <span class="icon-badge-container"><i class="fas fa-bell"></i><span class="badge" id="notificacoesBadge" style="display:none;">●</span></span>
+    </a>
+    <a href="agenda.html" class="nav-item"><i class="fas fa-calendar-alt"></i></a>
+    <a href="chat.html" class="nav-item"><i class="fas fa-comments"></i></a>
+    <a href="configuracoes.html" class="nav-item"><i class="fas fa-cog"></i></a>
+  </nav>
+  <script>
+    async function carregarNotificacoes() {
+      const userId = localStorage.getItem('userId');
+      const userType = localStorage.getItem('userType');
+      if (!userId || !userType) {
+        window.location.href = '/login';
+        return;
+      }
+
+      try {
+        const response = await fetch(`/notificacoes?id=${userId}&tipo=${userType}`);
+        const notificacoes = await response.json();
+        
+        const container = document.getElementById('notificacoesContainer');
+        container.innerHTML = '';
+        
+        if (!notificacoes.length) {
+          container.innerHTML = '<div class="sem-notificacoes">Nenhuma notificação no momento.</div>';
+          return;
+        }
+
+        notificacoes.forEach(n => {
+          const card = document.createElement('div');
+          card.className = 'notificacao-card';
+          if (n.lida) card.style.opacity = '0.7';
+          
+          card.innerHTML = `
+            <span class="notificacao-icone"><i class="fas fa-bell"></i></span>
+            <div>
+              <div class="notificacao-titulo">${n.titulo}</div>
+              <div class="notificacao-texto">${n.texto}</div>
+            </div>
+          `;
+          
+          card.onclick = async () => {
+            // Marca como lida
+            if (!n.lida) {
+              await fetch('/notificacao-lida', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ id: n.id })
+              });
+            }
+            // Redireciona para o link
+            window.location.href = n.link;
+          };
+          
+          container.appendChild(card);
+        });
+      } catch (error) {
+        console.error('Erro ao carregar notificações:', error);
+        container.innerHTML = '<div class="sem-notificacoes">Erro ao carregar notificações.</div>';
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', carregarNotificacoes);
+
+    function atualizarBadgeNotificacoes() {
+      const badge = document.getElementById('notificacoesBadge');
+      const userId = localStorage.getItem('userId');
+      const userType = localStorage.getItem('userType');
+      if (!userId || !userType) return;
+      fetch(`/notificacoes?id=${userId}&tipo=${userType}`)
+        .then(res => res.json())
+        .then(notificacoes => {
+          const naoLidas = notificacoes.filter(n => !n.lida);
+          if (naoLidas.length > 0) {
+            badge.style.display = 'flex';
+            badge.textContent = naoLidas.length;
+          } else {
+            badge.style.display = 'none';
+          }
+        })
+        .catch(error => {
+          console.error('Erro ao verificar notificações:', error);
+        });
+    }
+  </script>
+</body>
+</html> 
